@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Login</class>
+ <widget class="QWidget" name="Login">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>325</width>
+    <height>182</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>127</width>
+     <height>94</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Access Token</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="tokenEdit">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="loginButton">
+      <property name="text">
+       <string>Login</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>10</y>
+     <width>127</width>
+     <height>148</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Call Sign</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="callSignEdit">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Faction</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="factionSelect">
+      <item>
+       <property name="text">
+        <string>COSMIC</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>VOID</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>GALACTIC</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>QUANTUM</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>DOMINION</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ASTRO</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>CORSAIRS</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="registerButton">
+      <property name="text">
+       <string>Register</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
