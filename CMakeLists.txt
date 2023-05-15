@@ -15,11 +15,10 @@ find_package(Qt6 REQUIRED COMPONENTS Network)
 
 set(PROJECT_SOURCES
         main.cpp
-        textfinder.cpp
-        textfinder.h
-        textfinder.ui
-        login.h
-        login.cpp
+        ${TS_FILES}
+        login.h login.cpp login.ui
+        mainwindow.h mainwindow.cpp mainwindow.ui
+        agentinfo.h agentinfo.cpp agentinfo.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -48,6 +47,7 @@ endif()
 target_link_libraries(SpaceTradministrator PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(SpaceTradministrator PRIVATE Qt6::Network)
 
+
 set_target_properties(SpaceTradministrator PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -65,13 +65,3 @@ install(TARGETS SpaceTradministrator
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(SpaceTradministrator)
 endif()
-
-set(PROJECT_SOURCES
-        main.cpp
-        textfinder.cpp
-        textfinder.h
-        textfinder.ui
-        ${TS_FILES}
-        textfinder.qrc
-        login.h login.cpp login.ui
-)

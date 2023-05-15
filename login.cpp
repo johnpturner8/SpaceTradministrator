@@ -31,7 +31,8 @@ void Login::on_loginButton_clicked()
 {
     qDebug() << "Logging in..." << Qt::endl;
 
-    QString token = ui->tokenEdit->text();
+    token = ui->tokenEdit->text();
+    qInfo() << "onclick Token is: " << token << Qt::endl;
 
     QNetworkRequest req = QNetworkRequest(QUrl("https://api.spacetraders.io/v2/my/agent/"));
     req.setRawHeader("Authorization", "Bearer " + token.toUtf8());
@@ -69,12 +70,39 @@ void Login::registerFinished(QNetworkReply * reply)
 {
     qDebug() << "Registered..." << Qt::endl;
     qDebug() << "Response code: " << reply->error() << Qt::endl;
-    qDebug() << reply->readAll() << Qt::endl;
+
+    if(reply->error() == QNetworkReply::NoError){
+        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+        QJsonObject rootObj = document.object();
+
+//        qInfo() << document.toJson() << Qt::endl;
+//        qInfo() << rootObj.value("data").toObject().value("token").toString();
+
+        token = rootObj.value("data").toObject().value("token").toString();
+//        qInfo() << "emitting Token is: " << token << Qt::endl;
+
+        emit loginSuccess(token);
+        this->close();
+    }
+    else{
+        //TODO: Show error message to user
+    }
 }
 
 void Login::loginFinished(QNetworkReply * reply)
 {
-    qDebug() << "Logged in..." << Qt::endl;
-    qDebug() << "Response code: " << reply->error() << Qt::endl;
-    qDebug() << reply->readAll() << Qt::endl;
+//    qDebug() << "Logged in..." << Qt::endl;
+//    qDebug() << "Response code: " << reply->error() << Qt::endl;
+
+    if(reply->error() == QNetworkReply::NoError){
+        qInfo() << "emitting Token is: " << token << Qt::endl;
+
+        emit loginSuccess(token);
+        this->close();
+    }
+    else{
+        //TODO: Show error message to user
+    }
+//    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+//    QJsonObject rootObj = document.object();
 }

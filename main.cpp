@@ -1,25 +1,30 @@
-//#include "textfinder.h"
 #include "login.h"
+#include "mainwindow.h"
+#include "agentinfo.h"
+#include "ui_mainwindow.h"
 
 #include <QApplication>
 #include <QNetworkAccessManager>
 #include <QPointer>
-
-//static QPointer<QNetworkAccessManager> globalManager;
-
-//QNetworkAccessManager *nMgr() {
-////    Q_ASSERT(!qApp || QThread::currentThread() == qApp->thread());
-//    return globalManager;
-//}
+#include <QObject>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
     QNetworkAccessManager mgr;
-//    globalManager = &mgr;
 
-    Login w(nullptr, &mgr);
-    w.show();
+    Login l(nullptr, &mgr);
+    l.show();
+
+    MainWindow m(nullptr, &mgr);
+
+//    AgentInfo ag(&m, &mgr, nullptr);
+    //    ag.loadInfo();
+//    ag.show();
+
+    QObject::connect(&l, SIGNAL(loginSuccess(QString)), &m, SLOT(login(QString)));
+//    m.show();
+
     return a.exec();
 }
