@@ -29,6 +29,7 @@ private slots:
 private:
     Ui::Login *ui;
     QString token;
+    void saveToken();
 
 signals:
     void loginSuccess(QString token);

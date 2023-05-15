@@ -22,7 +22,7 @@ private:
     Ui::MainWindow *ui;
     QString token;
 
-private slots:
+public slots:
     void login(QString token);
 };
 

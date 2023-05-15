@@ -12,6 +12,7 @@
 #include <QNetworkReply>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QFile>
 
 QNetworkAccessManager *manager;
 
@@ -81,6 +82,8 @@ void Login::registerFinished(QNetworkReply * reply)
         token = rootObj.value("data").toObject().value("token").toString();
 //        qInfo() << "emitting Token is: " << token << Qt::endl;
 
+        saveToken();
+
         emit loginSuccess(token);
         this->close();
     }
@@ -97,6 +100,8 @@ void Login::loginFinished(QNetworkReply * reply)
     if(reply->error() == QNetworkReply::NoError){
         qInfo() << "emitting Token is: " << token << Qt::endl;
 
+        saveToken();
+
         emit loginSuccess(token);
         this->close();
     }
@@ -105,4 +110,13 @@ void Login::loginFinished(QNetworkReply * reply)
     }
 //    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
 //    QJsonObject rootObj = document.object();
+}
+
+void Login::saveToken(){
+    QFile tokenFile("token.txt");
+    tokenFile.open(QFile::ReadWrite);
+    tokenFile.resize(0);
+    tokenFile.write(token.toUtf8());
+    tokenFile.flush();
+    tokenFile.close();
 }
