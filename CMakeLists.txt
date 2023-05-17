@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Network)
+find_package(Qt6 REQUIRED COMPONENTS Charts)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -19,6 +20,7 @@ set(PROJECT_SOURCES
         login.h login.cpp login.ui
         mainwindow.h mainwindow.cpp mainwindow.ui
         agentinfo.h agentinfo.cpp agentinfo.ui
+        sectormap.h sectormap.cpp sectormap.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -46,7 +48,7 @@ endif()
 
 target_link_libraries(SpaceTradministrator PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(SpaceTradministrator PRIVATE Qt6::Network)
-
+target_link_libraries(SpaceTradministrator PRIVATE Qt6::Charts)
 
 set_target_properties(SpaceTradministrator PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

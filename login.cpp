@@ -95,7 +95,6 @@ void Login::registerFinished(QNetworkReply * reply)
 void Login::loginFinished(QNetworkReply * reply)
 {
 //    qDebug() << "Logged in..." << Qt::endl;
-//    qDebug() << "Response code: " << reply->error() << Qt::endl;
 
     if(reply->error() == QNetworkReply::NoError){
         qInfo() << "emitting Token is: " << token << Qt::endl;
@@ -107,6 +106,7 @@ void Login::loginFinished(QNetworkReply * reply)
     }
     else{
         //TODO: Show error message to user
+        qDebug() << "Response code: " << reply->error() << Qt::endl;
     }
 //    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
 //    QJsonObject rootObj = document.object();

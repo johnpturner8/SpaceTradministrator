@@ -45,6 +45,7 @@ void AgentInfo::loadInfo(){
 
 void AgentInfo::setInfo(QNetworkReply * reply){
     qDebug() << "setting info..." << Qt::endl;
+    qDebug() << "Response code: " << reply->error() << Qt::endl;
 //    qDebug() << reply->readAll() << Qt::endl;
 
     if(reply->error() == QNetworkReply::NoError){
@@ -65,3 +66,7 @@ void AgentInfo::setInfo(QNetworkReply * reply){
         ui->credits->setText(QString::number(credits));
     }
 }
+
+//QSize AgentInfo::minimumSizeHint(){
+//    return QSize()
+//}
