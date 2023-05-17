@@ -3,12 +3,14 @@
 
 #include "agentinfo.h"
 #include "sectormap.h"
+#include "shiplist.h"
 
 #include <QVBoxLayout>
 #include <QPushButton>
 
 AgentInfo* ag;
 SectorMap* sm;
+ShipList* sl;
 
 MainWindow::MainWindow(QWidget *parent, QNetworkAccessManager *mgr):
     QWidget{parent},
@@ -18,21 +20,26 @@ MainWindow::MainWindow(QWidget *parent, QNetworkAccessManager *mgr):
 
     qDebug() << "Main window opened..." << Qt::endl;
 
-    QGridLayout* layout = new QGridLayout;
+//    QGridLayout* layout = new QGridLayout;
+    QVBoxLayout* vlayout = new QVBoxLayout;
+    QHBoxLayout* hlayout = new QHBoxLayout;
 
     sm = new SectorMap (this, mgr);
     ag = new AgentInfo (this, mgr);
+    sl = new ShipList (this);
 //    QPushButton *button1 = new QPushButton("One");
 //    QPushButton *button2 = new QPushButton("Two");
 //    QPushButton *button3 = new QPushButton("Three");
 
-    layout->addWidget(sm, 1, 0);
-    layout->addWidget(ag, 0, 1);
+    vlayout->addWidget(ag);
 //    layout->addWidget(button1, 0, 0);
 //    layout->addWidget(button2, 1, 0);
-//    layout->addWidget(button3, 1, 1);
+    vlayout->addWidget(sl);
+    hlayout->addLayout(vlayout);
+    hlayout->addWidget(sm);
 
-    setLayout(layout);
+
+    setLayout(hlayout);
 
     grabGesture(Qt::PanGesture);
     grabGesture(Qt::PinchGesture);
@@ -51,4 +58,5 @@ void MainWindow::login(QString token){
 
     ag->login(token);
     sm->login(token);
+    sl->login(token);
 }

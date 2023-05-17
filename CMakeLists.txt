@@ -20,7 +20,8 @@ set(PROJECT_SOURCES
         login.h login.cpp login.ui
         mainwindow.h mainwindow.cpp mainwindow.ui
         agentinfo.h agentinfo.cpp agentinfo.ui
-        sectormap.h sectormap.cpp sectormap.ui
+        sectormap.h sectormap.cpp
+        shiplist.h shiplist.cpp shiplist.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -52,9 +52,6 @@ SectorMap::SectorMap(QWidget *parent, QNetworkAccessManager *mgr, QString token)
 
 
 //    chart()->setPlotArea(QRectF(-1000.0, 1000.0, 2000.0, 2000.0));
-
-//    chart()->setPreferredWidth(200);
-//    chart()->setPreferredHeight(200);
 }
 
 void SectorMap::wheelEvent(QWheelEvent *event)
@@ -110,14 +107,11 @@ void SectorMap::mouseReleaseEvent(QMouseEvent *event)
 
 void SectorMap::keyPressEvent(QKeyEvent *event)
 {
-//    qDebug() << event->key();
-
     switch (event->key()) {
     case Qt::Key_Plus:
         chart()->zoomIn();
         break;
     case Qt::Key_Equal:
-//        qDebug() << "equals";
         chart()->zoomIn();
         break;
     case Qt::Key_Minus:
@@ -140,43 +134,6 @@ void SectorMap::keyPressEvent(QKeyEvent *event)
         break;
     }
 }
-
-//void SectorMap::mousePressEvent(QMouseEvent *event)
-//{
-//    if (event->button() == Qt::LeftButton)
-//    {
-//        QApplication::setOverrideCursor(QCursor(Qt::SizeAllCursor));
-//        m_lastMousePos = event->pos();
-//        event->accept();
-//    }
-
-//    QChartView::mousePressEvent(event);
-//}
-
-//void SectorMap::mouseMoveEvent(QMouseEvent *event)
-//{
-//    // pan the chart with a middle mouse drag
-//    if (event->buttons() & Qt::LeftButton)
-//    {
-//        QRectF bounds = QRectF(0,0,0,0);
-//        for(QScatterSeries series : this->chart()->series())
-//            bounds.united(series->bounds());
-
-//                auto dPos = this->chart()->mapToValue(event->pos()) - this->chart()->mapToValue(m_lastMousePos);
-
-//        if (this->rubberBand() == QChartView::RectangleRubberBand)
-//            this->chart()->zoom(bounds.translated(-dPos.x(), -dPos.y()));
-//        else if (this->rubberBand() == QChartView::HorizontalRubberBand)
-//            this->chart()->zoom(bounds.translated(-dPos.x(), 0));
-//        else if (this->rubberBand() == QChartView::VerticalRubberBand)
-//            this->chart()->zoom(bounds.translated(0, -dPos.y()));
-
-//        m_lastMousePos = event->pos();
-//        event->accept();
-//    }
-
-//    QChartView::mouseMoveEvent(event);
-//}
 
 SectorMap::~SectorMap()
 {
