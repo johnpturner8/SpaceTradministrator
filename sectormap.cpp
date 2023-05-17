@@ -16,18 +16,22 @@ int limit = 20;
 QTimer timer;
 
 SectorMap::SectorMap(QWidget *parent, QNetworkAccessManager *mgr, QString token) :
-    QChartView(new QChart, parent)
+    QChartView(new QChart, parent),
+    m_isTouching(false)
 {
     this->token = token;
     manager = new QNetworkAccessManager;
 
     chart()->setTheme(QChart::ChartThemeDark);
-    setRubberBand(QChartView::RectangleRubberBand);
+//    setRubberBand(QChartView::RectangleRubberBand);
+//    setDragMode(QGraphicsView::ScrollHandDrag);
+    chart()->legend()->hide();
+    chart()->setAnimationOptions(QChart::SeriesAnimations);
 
     stars = new QScatterSeries();
     stars->setName("stars");
     stars->setMarkerShape(QScatterSeries::MarkerShapeCircle);
-    stars->setMarkerSize(1);
+    stars->setMarkerSize(2);
     stars->setBorderColor(Qt::transparent);
 //    stars->append(0, 0);
 
@@ -43,8 +47,8 @@ SectorMap::SectorMap(QWidget *parent, QNetworkAccessManager *mgr, QString token)
     chart()->axes(Qt::Horizontal).first()->setRange(-1000.0, 1000.0);
     chart()->axes(Qt::Vertical).first()->setRange(-1000.0, 1000.0);
 
-    chart()->removeAxis(chart()->axes(Qt::Horizontal).first());
-    chart()->removeAxis(chart()->axes(Qt::Vertical).first());
+//    chart()->removeAxis(chart()->axes(Qt::Horizontal).first());
+//    chart()->removeAxis(chart()->axes(Qt::Vertical).first());
 
 
 //    chart()->setPlotArea(QRectF(-1000.0, 1000.0, 2000.0, 2000.0));
@@ -55,10 +59,86 @@ SectorMap::SectorMap(QWidget *parent, QNetworkAccessManager *mgr, QString token)
 
 void SectorMap::wheelEvent(QWheelEvent *event)
 {
+    QGraphicsView::wheelEvent(event);
     qreal factor = event->angleDelta().y() < 0? 0.9: 1.1;
     chart()->zoom(factor);
     event->accept();
     QChartView::wheelEvent(event);
+}
+
+bool SectorMap::viewportEvent(QEvent *event)
+{
+    if (event->type() == QEvent::TouchBegin) {
+        // By default touch events are converted to mouse events. So
+        // after this event we will get a mouse event also but we want
+        // to handle touch events as gestures only. So we need this safeguard
+        // to block mouse events that are actually generated from touch.
+        m_isTouching = true;
+
+        // Turn off animations when handling gestures they
+        // will only slow us down.
+        chart()->setAnimationOptions(QChart::NoAnimation);
+    }
+    return QChartView::viewportEvent(event);
+}
+
+void SectorMap::mousePressEvent(QMouseEvent *event)
+{
+    if (m_isTouching)
+        return;
+    QChartView::mousePressEvent(event);
+}
+
+void SectorMap::mouseMoveEvent(QMouseEvent *event)
+{
+    if (m_isTouching)
+        return;
+    QChartView::mouseMoveEvent(event);
+}
+
+void SectorMap::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (m_isTouching)
+        m_isTouching = false;
+
+    // Because we disabled animations when touch event was detected
+    // we must put them back on.
+    chart()->setAnimationOptions(QChart::SeriesAnimations);
+
+    QChartView::mouseReleaseEvent(event);
+}
+
+void SectorMap::keyPressEvent(QKeyEvent *event)
+{
+//    qDebug() << event->key();
+
+    switch (event->key()) {
+    case Qt::Key_Plus:
+        chart()->zoomIn();
+        break;
+    case Qt::Key_Equal:
+//        qDebug() << "equals";
+        chart()->zoomIn();
+        break;
+    case Qt::Key_Minus:
+        chart()->zoomOut();
+        break;
+    case Qt::Key_Left:
+        chart()->scroll(-10, 0);
+        break;
+    case Qt::Key_Right:
+        chart()->scroll(10, 0);
+        break;
+    case Qt::Key_Up:
+        chart()->scroll(0, 10);
+        break;
+    case Qt::Key_Down:
+        chart()->scroll(0, -10);
+        break;
+    default:
+        QGraphicsView::keyPressEvent(event);
+        break;
+    }
 }
 
 //void SectorMap::mousePressEvent(QMouseEvent *event)

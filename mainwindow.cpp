@@ -33,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent, QNetworkAccessManager *mgr):
 //    layout->addWidget(button3, 1, 1);
 
     setLayout(layout);
+
+    grabGesture(Qt::PanGesture);
+    grabGesture(Qt::PinchGesture);
 }
 
 MainWindow::~MainWindow()
