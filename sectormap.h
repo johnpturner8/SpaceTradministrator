@@ -21,7 +21,7 @@ public:
 private:
     QNetworkAccessManager *manager;
     QString token;
-    QScatterSeries * stars;
+//    QScatterSeries * stars;
     QPointF m_lastMousePos;
     bool m_isTouching;
 
@@ -32,6 +32,9 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+//    int heightForWidth(int w) const Q_DECL_OVERRIDE;
+//    bool hasHeightForWidth() const Q_DECL_OVERRIDE;
+
 //    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 //    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 

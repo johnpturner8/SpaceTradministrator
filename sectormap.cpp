@@ -15,6 +15,36 @@ int total = 700;
 int limit = 20;
 QTimer timer;
 
+const int STAR_TYPES = 10;
+
+QScatterSeries neutron_stars;
+QScatterSeries red_stars;
+QScatterSeries orange_stars;
+QScatterSeries blue_stars;
+QScatterSeries young_stars;
+QScatterSeries white_dwarfs;
+QScatterSeries black_holes;
+QScatterSeries hypergiants;
+QScatterSeries nebulas;
+QScatterSeries unstables;
+
+enum StarTypes {
+    NEUTRON_STAR,
+    RED_STAR,
+    ORANGE_STAR,
+    BLUE_STAR,
+    YOUNG_STAR,
+    WHITE_DWARF,
+    BLACK_HOLE,
+    HYPERGIANT,
+    NEBULA,
+    UNSTABLE
+};
+
+std::map<QString, StarTypes> starTypeValues;
+
+QScatterSeries * stars[STAR_TYPES] = {&neutron_stars, &red_stars, &orange_stars, &blue_stars, &young_stars, &white_dwarfs, &black_holes, &hypergiants, &nebulas, &unstables};
+
 SectorMap::SectorMap(QWidget *parent, QNetworkAccessManager *mgr, QString token) :
     QChartView(new QChart, parent),
     m_isTouching(false)
@@ -28,19 +58,65 @@ SectorMap::SectorMap(QWidget *parent, QNetworkAccessManager *mgr, QString token)
     chart()->legend()->hide();
     chart()->setAnimationOptions(QChart::SeriesAnimations);
 
-    stars = new QScatterSeries();
-    stars->setName("stars");
-    stars->setMarkerShape(QScatterSeries::MarkerShapeCircle);
-    stars->setMarkerSize(2);
-    stars->setBorderColor(Qt::transparent);
+//    stars = new QScatterSeries();
+
+    neutron_stars.setName("Neutron Star");
+    red_stars.setName("Red Star");
+    orange_stars.setName("Orange Star");
+    blue_stars.setName("Blue Star");
+    young_stars.setName("Young Star");
+    white_dwarfs.setName("White Dwarf");
+    black_holes.setName("Black Hole");
+    hypergiants.setName("Hypergiant");
+    nebulas.setName("Nebulas");
+    unstables.setName("Unstables");
+
+    for(int i = 0; i < STAR_TYPES; i++){
+        stars[i]->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+        stars[i]->setBorderColor(Qt::transparent);
+        stars[i]->setMarkerSize(3);
+    }
+
+    red_stars.setColor(Qt::red);
+    orange_stars.setColor(QColorConstants::Svg::orange);
+    blue_stars.setColor(QColorConstants::Svg::blue);
+    young_stars.setColor(QColorConstants::Cyan);
+    white_dwarfs.setColor(Qt::white);
+    black_holes.setColor(Qt::black);
+    black_holes.setBorderColor(Qt::white);
+    black_holes.setMarkerSize(4);
+    hypergiants.setMarkerSize(6);
+    hypergiants.setColor(Qt::yellow);
+    nebulas.setMarkerShape(QScatterSeries::MarkerShapeRotatedRectangle);
+    nebulas.setColor(QColorConstants::Svg::purple);
+    unstables.setMarkerShape(QScatterSeries::MarkerShapeTriangle);
+    unstables.setColor(Qt::green);
+
+    //initialize map
+    starTypeValues["NEUTRON_STAR"] = NEUTRON_STAR;
+    starTypeValues["RED_STAR"] = RED_STAR;
+    starTypeValues["ORANGE_STAR"] = ORANGE_STAR;
+    starTypeValues["BLUE_STAR"] = BLUE_STAR;
+    starTypeValues["YOUNG_STAR"] = YOUNG_STAR;
+    starTypeValues["WHITE_DWARF"] = WHITE_DWARF;
+    starTypeValues["BLACK_HOLE"] = BLACK_HOLE;
+    starTypeValues["HYPERGIANT"] = HYPERGIANT;
+    starTypeValues["NEBULA"] = NEBULA;
+    starTypeValues["UNSTABLE"] = UNSTABLE;
+
+//    stars->setName("stars");
+//    stars->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+//    stars->setMarkerSize(2);
+//    stars->setBorderColor(Qt::transparent);
 //    stars->append(0, 0);
 
 //    *stars << QPointF(1, 1);
-    stars->setColor(Qt::white);
+//    stars->setColor(Qt::white);
 
-    qInfo() << stars->color();
+//    qInfo() << stars->color();
 
-    chart()->addSeries(stars);
+    for(int i = 0; i < STAR_TYPES; i++)
+        chart()->addSeries(stars[i]);
 
 
     chart()->createDefaultAxes();
@@ -181,7 +257,11 @@ void SectorMap::setInfo(QNetworkReply * reply){
 
         for(int i = 0; i < data.size(); i++){
             QJsonObject system = data[i].toObject();
-            stars->append(system.value("x").toInt(), system.value("y").toInt());
+            QString type = system.value("type").toString();
+            qInfo() << type << starTypeValues[type];
+            stars[starTypeValues[type]]->append(system.value("x").toInt(), system.value("y").toInt());
+
+//            stars->append(system.value("x").toInt(), system.value("y").toInt());
         }
     }
     else{
@@ -196,3 +276,13 @@ void SectorMap::setInfo(QNetworkReply * reply){
 
     //check if last page or need to wait for rate limit
 }
+
+
+//int SectorMap::heightForWidth(int w) const
+//{
+//    return w;
+//}
+
+//bool SectorMap::hasHeightForWidth() const
+//{ return true; }
+
