@@ -27,6 +27,9 @@ private:
 
 private slots:
     void setInfo(QNetworkReply * reply);
+
+signals:
+    void hqRetrieved(QString headquarters);
 };
 
 #endif // AGENTINFO_H

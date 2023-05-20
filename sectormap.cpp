@@ -221,7 +221,7 @@ void SectorMap::login(QString token){
     loadInfo();
 }
 
-void SectorMap::loadInfo(int s){
+void SectorMap::loadInfo(int _){
     //check token has been set
     if(token.isEmpty()) return;
 
@@ -258,7 +258,7 @@ void SectorMap::setInfo(QNetworkReply * reply){
         for(int i = 0; i < data.size(); i++){
             QJsonObject system = data[i].toObject();
             QString type = system.value("type").toString();
-            qInfo() << type << starTypeValues[type];
+//            qInfo() << type << starTypeValues[type];
             stars[starTypeValues[type]]->append(system.value("x").toInt(), system.value("y").toInt());
 
 //            stars->append(system.value("x").toInt(), system.value("y").toInt());

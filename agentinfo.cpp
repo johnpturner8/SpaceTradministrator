@@ -64,6 +64,9 @@ void AgentInfo::setInfo(QNetworkReply * reply){
         ui->call_sign->setText(callsign);
         ui->hq->setText(headquarters);
         ui->credits->setText(QString::number(credits));
+
+        //emit signal
+        emit hqRetrieved(headquarters);
     }
 }
 

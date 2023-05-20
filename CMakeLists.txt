@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
         agentinfo.h agentinfo.cpp agentinfo.ui
         sectormap.h sectormap.cpp
         shiplist.h shiplist.cpp shiplist.ui
+        systemmap.h systemmap.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
